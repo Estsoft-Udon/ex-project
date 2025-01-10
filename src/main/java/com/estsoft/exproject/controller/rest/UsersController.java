@@ -1,6 +1,5 @@
 package com.estsoft.exproject.controller.rest;
 
-import com.estsoft.exproject.dto.response.UsersResponse;
 import com.estsoft.exproject.entity.Users;
 import com.estsoft.exproject.service.UsersService;
 import lombok.RequiredArgsConstructor;
