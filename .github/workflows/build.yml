@@ -14,6 +14,8 @@ jobs:
     env:
       S3_BUCKET_NAME: udon-bucket0111
       AWS_REGION: ap-northeast-2
+      CODEDEPLOY_NAME: udon-deploy
+      CODEDEPLOY_GROUP: udon-github-actions-group
 
     steps:
     - uses: actions/checkout@v4
@@ -45,7 +47,10 @@ jobs:
       
     - name: Upload to S3
       run: aws s3 cp --region ${{ env.AWS_REGION }} ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/builds/$GITHUB_SHA.zip
-
+      
+    - name: Code Deploy
+      run: aws deploy create-deployment --application-name $CODEDEPLOY_NAME --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name $CODEDEPLOY_GROUP --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+      
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
@@ -60,3 +65,5 @@ jobs:
 
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@v4.0.0
+
+      
