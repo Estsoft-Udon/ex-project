@@ -1,8 +1,10 @@
 package com.estsoft.exproject.entity;
 
+import com.estsoft.exproject.dto.request.UsersRequest;
 import com.estsoft.exproject.enums.Membership;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +34,16 @@ public class Users {
     private String email;
 
     @Column
-    private Membership membership;
+    private Membership membership = Membership.NORMAL;
 
     @Column
     private String phone;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
@@ -45,6 +51,28 @@ public class Users {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = Boolean.FALSE;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public Users(UsersRequest request) {
+        this.loginId = request.getLoginId();
+        this.password = request.getPassword();
+        this.name = request.getName();
+        this.nickname = request.getNickname();
+        this.email = request.getEmail();
+        this.phone = request.getPhone();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }
