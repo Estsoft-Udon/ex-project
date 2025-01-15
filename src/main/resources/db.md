@@ -1,6 +1,6 @@
 ```mysql
 
-CREATE TABLE Users
+CREATE TABLE users
 (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
     login_id      VARCHAR(255) NOT NULL UNIQUE, 
