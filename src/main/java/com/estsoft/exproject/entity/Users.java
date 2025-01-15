@@ -67,7 +67,6 @@ public class Users {
 
     public Users(UsersRequest request) {
         this.loginId = request.getLoginId();
-        this.password = request.getPassword();
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.email = request.getEmail();
