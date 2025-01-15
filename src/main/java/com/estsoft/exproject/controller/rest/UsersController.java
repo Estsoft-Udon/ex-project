@@ -1,5 +1,6 @@
 package com.estsoft.exproject.controller.rest;
 
+import com.estsoft.exproject.dto.request.UsersRequest;
 import com.estsoft.exproject.entity.Users;
 import com.estsoft.exproject.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class UsersController {
     private final UsersService usersService;
 
     @PostMapping("/register")
-    public ResponseEntity<Users> register(@RequestBody Users users) {
-        return ResponseEntity.ok(usersService.register(users));
+    public ResponseEntity<Users> register(@RequestBody UsersRequest request) {
+        return ResponseEntity.ok(usersService.register(request));
     }
 }
